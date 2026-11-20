@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Penjadwalan Ruang · Satpol PP Kota Mojokerto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- HALAMAN LOGIN -->
+<div id="view-login" class="auth-page">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <span class="logo">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3l7 3v5.5c0 4.2-2.9 7.6-7 9.5-4.1-1.9-7-5.3-7-9.5V6z"/>
+          <path d="M9 12l2 2 4-4"/>
+        </svg>
+      </span>
+      <div>
+        <h1 class="auth-title">Penjadwalan Ruang</h1>
+        <p class="auth-sub">Satpol PP Kota Mojokerto</p>
+      </div>
+    </div>
+
+    <div id="login-flash" class="flash" style="display:none"></div>
+    <div id="login-err" class="auth-err">Username atau password salah.</div>
+
+    <form id="form-login" class="auth-form" onsubmit="event.preventDefault(); handleLogin();">
+      <div class="f">
+        <label for="login-username">Username</label>
+        <input class="in" type="text" id="login-username" required autofocus placeholder="Masukkan username" autocomplete="username">
+      </div>
+
+      <div class="f">
+        <label for="login-password">Password</label>
+        <div class="auth-pass-wrap">
+          <input class="in" type="password" id="login-password" required placeholder="Masukkan password" autocomplete="current-password">
+          <button type="button" class="auth-pass-toggle" id="toggle-pass" title="Lihat kata sandi">
+            <svg id="eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn auth-btn">Masuk ke Sistem</button>
+    </form>
+
+    <div class="auth-foot">
+      <span>Sistem Administrasi Penjadwalan Ruang</span>
+    </div>
+  </div>
+</div>
+
+<!-- APLIKASI UTAMA (SETELAH LOGIN) -->
+<div id="app-root" class="app" style="display:none">
+  <aside class="side">
+    <div class="brand">
+      <span class="logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3l7 3v5.5c0 4.2-2.9 7.6-7 9.5-4.1-1.9-7-5.3-7-9.5V6z"/>
+          <path d="M9 12l2 2 4-4"/>
+        </svg>
+      </span>
+      <div>
+        <div class="b1">Penjadwalan Ruang</div>
+        <div class="b2">Satpol PP Kota Mojokerto</div>
+      </div>
+    </div>
+
+    <nav class="nav-list" aria-label="Menu utama">
+      <a class="nav" id="nav-dashboard" href="#/dashboard">
+        <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+        Dashboard
+      </a>
+      <a class="nav" id="nav-ruangan" href="#/ruangan">
+        <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v17"/><path d="M3 21h18"/><circle cx="15" cy="12.5" r="1"/></svg>
+        Data Ruangan
+      </a>
+      <a class="nav" id="nav-jadwal" href="#/jadwal">
+        <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
+        Jadwal Penggunaan
+      </a>
+      <a class="nav" id="nav-form" href="#/form">
+        <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19z"/><path d="M14 7l3 3"/></svg>
+        Form Pencatatan
+      </a>
+      <a class="nav" id="nav-riwayat" href="#/riwayat">
+        <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1"/><path d="M3.5 4.5v4h4"/><path d="M12 7.5V12l3 2"/></svg>
+        Riwayat Penggunaan
+      </a>
+      <a class="nav" id="nav-backup" href="#/backup">
+        <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Cadangan Data
+      </a>
+    </nav>
+
+    <div class="side-foot">
+      <div class="user-box">
+        <div class="user-info">
+          <svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <div class="user-meta">
+            <span class="user-name">Administrator</span>
+            <span class="user-role">@admin</span>
+          </div>
+        </div>
+        <button type="button" class="logout-btn" onclick="handleLogout()" title="Keluar">
+          <svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Keluar
+        </button>
+      </div>
+      <div class="side-date" id="side-date-text"></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div id="app-flash" class="flash" style="display:none"></div>
+
+    <!-- VIEW 1: DASHBOARD -->
+    <section id="sec-dashboard" class="view-section">
+      <div class="head">
+        <div>
+          <h1>Sistem Administrasi Penjadwalan Ruang</h1>
+          <p>Satuan Polisi Pamong Praja Kota Mojokerto</p>
+        </div>
+        <a class="btn" href="#/form">Catat Penggunaan Ruang</a>
+      </div>
+
+      <section class="stats" aria-label="Ringkasan">
+        <div class="card stat" onclick="location.hash='#/ruangan'">
+          <span class="lbl">Total ruang</span>
+          <span class="num" id="stat-ruang">0</span>
+          <span class="hint">ruangan terdaftar</span>
+        </div>
+        <div class="card stat" onclick="location.hash='#/jadwal?f=hariini'">
+          <span class="lbl">Jadwal hari ini</span>
+          <span class="num" id="stat-hariini">0</span>
+          <span class="hint" id="stat-hariini-hint">kegiatan hari ini</span>
+        </div>
+        <div class="card stat" onclick="location.hash='#/jadwal?f=mendatang'">
+          <span class="lbl">Jadwal mendatang</span>
+          <span class="num" id="stat-mendatang">0</span>
+          <span class="hint">setelah hari ini, tanpa yang dibatalkan</span>
+        </div>
+        <div class="card stat" onclick="location.hash='#/riwayat'">
+          <span class="lbl">Riwayat penggunaan</span>
+          <span class="num" id="stat-riwayat">0</span>
+          <span class="hint">kegiatan sebelum hari ini</span>
+        </div>
+      </section>
+
+      <section class="sec" aria-label="Menu utama">
+        <h2>Menu Utama</h2>
+        <div class="tiles">
+          <div class="card tile" onclick="location.hash='#/ruangan'">
+            <span class="ti"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v17"/><path d="M3 21h18"/><circle cx="15" cy="12.5" r="1"/></svg></span>
+            <h3>Data Ruangan</h3>
+            <p>Kode, lokasi, kapasitas, fasilitas, dan status ruangan.</p>
+          </div>
+          <div class="card tile" onclick="location.hash='#/jadwal'">
+            <span class="ti"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></span>
+            <h3>Jadwal Penggunaan</h3>
+            <p>Daftar kegiatan per tanggal, ruangan, dan penanggung jawab.</p>
+          </div>
+          <div class="card tile" onclick="location.hash='#/form'">
+            <span class="ti"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19z"/><path d="M14 7l3 3"/></svg></span>
+            <h3>Form Pencatatan</h3>
+            <p>Catat penggunaan ruang baru lengkap dengan waktu dan status.</p>
+          </div>
+          <div class="card tile" onclick="location.hash='#/riwayat'">
+            <span class="ti"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1"/><path d="M3.5 4.5v4h4"/><path d="M12 7.5V12l3 2"/></svg></span>
+            <h3>Riwayat Penggunaan</h3>
+            <p>Seluruh kegiatan yang pernah tercatat, hanya untuk dibaca.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="cols">
+        <div class="card panel" style="flex:1 1 340px">
+          <h2>Jadwal hari ini dan mendatang</h2>
+          <div id="dash-akan-list"></div>
+        </div>
+        <div class="card panel" style="flex:1.6 1 440px">
+          <h2>Kegiatan terakhir</h2>
+          <div id="dash-terakhir-list"></div>
+        </div>
+      </section>
+    </section>
+
+    <!-- VIEW 2: DATA RUANGAN -->
+    <section id="sec-ruangan" class="view-section">
+      <div class="head">
+        <div>
+          <h1>Data Ruangan</h1>
+          <p>Daftar ruangan yang bisa dijadwalkan. Kode ruangan dipakai di form pencatatan.</p>
+        </div>
+      </div>
+
+      <div class="split">
+        <section class="card" style="flex:2 1 560px;min-width:0" aria-label="Daftar ruangan">
+          <div class="tools">
+            <div class="fl" style="flex:2 1 220px">
+              <label for="ruangan-q">Cari</label>
+              <input class="in" id="ruangan-q" type="search" placeholder="Kode, nama, atau lokasi" oninput="renderRuanganTable()">
+            </div>
+            <div class="fl">
+              <label for="ruangan-filter-st">Status</label>
+              <select class="in" id="ruangan-filter-st" onchange="renderRuanganTable()">
+                <option value="">Semua status</option>
+                <option value="AKTIF">AKTIF</option>
+                <option value="NONAKTIF">NONAKTIF</option>
+              </select>
+            </div>
+          </div>
+          <div class="tw">
+            <table style="min-width:760px">
+              <thead>
+                <tr>
+                  <th>Kode</th>
+                  <th>Nama ruangan</th>
+                  <th>Lokasi</th>
+                  <th>Kapasitas</th>
+                  <th>Fasilitas</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="ruangan-tbody"></tbody>
+            </table>
+          </div>
+          <div class="foot">
+            <span id="ruangan-total-text">Menampilkan 0 ruangan</span>
+          </div>
+        </section>
+
+        <form id="form-ruangan" class="card formc" style="flex:1 1 300px;min-width:0" onsubmit="event.preventDefault(); saveRuangan();">
+          <h2 id="form-ruangan-title">Tambah ruangan</h2>
+          <input type="hidden" id="ruangan-asli" value="">
+          <div class="g2">
+            <div class="f">
+              <label for="ruangan-kode">Kode ruangan</label>
+              <input class="in" id="ruangan-kode" required>
+              <span id="ruangan-err-kode" class="err" style="display:none"></span>
+            </div>
+            <div class="f">
+              <label for="ruangan-status">Status</label>
+              <select class="in" id="ruangan-status">
+                <option value="AKTIF">AKTIF</option>
+                <option value="NONAKTIF">NONAKTIF</option>
+              </select>
+            </div>
+          </div>
+          <div class="f">
+            <label for="ruangan-nama">Nama ruangan</label>
+            <input class="in" id="ruangan-nama" placeholder="Contoh: Ruang Rapat" required>
+            <span id="ruangan-err-nama" class="err" style="display:none"></span>
+          </div>
+          <div class="f">
+            <label for="ruangan-lokasi">Lokasi</label>
+            <input class="in" id="ruangan-lokasi" placeholder="Gedung atau alamat ruangan">
+          </div>
+          <div class="f">
+            <label for="ruangan-kapasitas">Kapasitas (orang)</label>
+            <input class="in" id="ruangan-kapasitas" type="number" min="1" placeholder="0">
+          </div>
+          <div class="f">
+            <label for="ruangan-fasilitas">Fasilitas</label>
+            <textarea class="in" id="ruangan-fasilitas" rows="3" placeholder="Contoh: Proyektor, AC, Sound system"></textarea>
+          </div>
+          <div class="actions">
+            <button class="btn" type="submit" id="btn-save-ruangan">Tambah ruangan</button>
+            <button class="btn ghost" type="button" onclick="resetFormRuangan()">Reset</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- VIEW 3: JADWAL PENGGUNAAN -->
+    <section id="sec-jadwal" class="view-section">
+      <div class="head">
+        <div>
+          <h1>Jadwal Penggunaan</h1>
+          <p>Semua kegiatan yang memakai ruangan, diurutkan dari tanggal terbaru.</p>
+        </div>
+        <a class="btn" href="#/form">Catat jadwal baru</a>
+      </div>
+
+      <div class="chips" role="group" aria-label="Filter cepat">
+        <button type="button" class="chip on" id="chip-semua" onclick="setJadwalFilterCepat('')">Semua <b id="cnt-semua">0</b></button>
+        <button type="button" class="chip" id="chip-hariini" onclick="setJadwalFilterCepat('hariini')">Hari ini <b id="cnt-hariini">0</b></button>
+        <button type="button" class="chip" id="chip-mendatang" onclick="setJadwalFilterCepat('mendatang')">Mendatang <b id="cnt-mendatang">0</b></button>
+        <button type="button" class="chip" id="chip-TERJADWAL" onclick="setJadwalFilterCepat('TERJADWAL')">Terjadwal <b id="cnt-terjadwal">0</b></button>
+        <button type="button" class="chip" id="chip-SELESAI" onclick="setJadwalFilterCepat('SELESAI')">Selesai <b id="cnt-selesai">0</b></button>
+        <button type="button" class="chip" id="chip-DIBATALKAN" onclick="setJadwalFilterCepat('DIBATALKAN')">Dibatalkan <b id="cnt-dibatalkan">0</b></button>
+      </div>
+
+      <section class="card" aria-label="Tabel jadwal">
+        <div class="tools">
+          <div class="fl" style="flex:2 1 220px">
+            <label for="jadwal-q">Cari</label>
+            <input class="in" id="jadwal-q" type="search" placeholder="Kegiatan atau penanggung jawab" oninput="renderJadwalTable()">
+          </div>
+          <div class="fl">
+            <label for="jadwal-dari">Dari tanggal</label>
+            <input class="in" id="jadwal-dari" type="date" onchange="renderJadwalTable()">
+          </div>
+          <div class="fl">
+            <label for="jadwal-sampai">Sampai tanggal</label>
+            <input class="in" id="jadwal-sampai" type="date" onchange="renderJadwalTable()">
+          </div>
+          <div class="fl">
+            <label for="jadwal-ruang">Ruangan</label>
+            <select class="in" id="jadwal-ruang" onchange="renderJadwalTable()">
+              <option value="">Semua ruangan</option>
+            </select>
+          </div>
+          <button class="btn ghost" type="button" onclick="resetJadwalFilter()">Reset</button>
+        </div>
+
+        <div class="tw">
+          <table>
+            <thead>
+              <tr>
+                <th>Tanggal</th>
+                <th>Waktu</th>
+                <th>Ruangan</th>
+                <th>Nama kegiatan</th>
+                <th>Penanggung jawab</th>
+                <th>Status</th>
+                <th>ID jadwal</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="jadwal-tbody"></tbody>
+          </table>
+        </div>
+
+        <div class="foot">
+          <span id="jadwal-pager-info">Halaman 1 dari 1</span>
+          <div class="pg" id="jadwal-pager-btns"></div>
+        </div>
+      </section>
+    </section>
+
+    <!-- VIEW 4: FORM PENCATATAN -->
+    <section id="sec-form" class="view-section">
+      <div class="head">
+        <div>
+          <h1 id="form-title">Form Pencatatan Penggunaan Ruang</h1>
+          <p id="form-sub">Silakan lengkapi data kegiatan penggunaan ruang.</p>
+        </div>
+      </div>
+
+      <div class="split">
+        <form id="form-jadwal" class="card formc" style="flex:2 1 480px;min-width:0;max-width:780px" onsubmit="event.preventDefault(); saveJadwal();">
+          <input type="hidden" id="jadwal-form-id" value="">
+          <div class="g2">
+            <div class="f">
+              <label for="jf-tanggal">Tanggal penggunaan <span class="req">*</span></label>
+              <input class="in" id="jf-tanggal" type="date" required>
+            </div>
+            <div class="f">
+              <label for="jf-kode-ruangan">Kode ruangan <span class="req">*</span></label>
+              <select class="in" id="jf-kode-ruangan" required onchange="updateFormRoomPreview()">
+              </select>
+              <small>Pilihan diambil dari Data Ruangan.</small>
+            </div>
+          </div>
+          <div class="f">
+            <label for="jf-kegiatan">Nama kegiatan <span class="req">*</span></label>
+            <input class="in" id="jf-kegiatan" placeholder="Contoh: Rakor ASLINMAS Kelurahan" required>
+          </div>
+          <div class="g2">
+            <div class="f">
+              <label for="jf-mulai">Waktu mulai <span class="req">*</span></label>
+              <input class="in" id="jf-mulai" type="time" required>
+            </div>
+            <div class="f">
+              <label for="jf-selesai">Waktu selesai</label>
+              <input class="in" id="jf-selesai" type="time">
+            </div>
+          </div>
+          <div class="f">
+            <label for="jf-pj">Penanggung jawab <span class="req">*</span></label>
+            <input class="in" id="jf-pj" placeholder="Nama orang atau bidang" required>
+          </div>
+          <div class="f">
+            <label for="jf-keterangan">Keterangan</label>
+            <textarea class="in" id="jf-keterangan" rows="3" placeholder="Catatan tambahan, misalnya jenis acara"></textarea>
+          </div>
+          <div class="f" style="max-width:260px">
+            <label for="jf-status">Status</label>
+            <select class="in" id="jf-status">
+              <option value="TERJADWAL">TERJADWAL</option>
+              <option value="SELESAI">SELESAI</option>
+              <option value="DIBATALKAN">DIBATALKAN</option>
+            </select>
+          </div>
+          <div class="actions">
+            <button class="btn" type="submit" id="btn-submit-jadwal">Simpan jadwal</button>
+            <button class="btn ghost" type="button" onclick="resetFormJadwal()">Kosongkan form</button>
+            <a class="btn ghost" href="#/jadwal">Lihat jadwal</a>
+          </div>
+        </form>
+
+        <aside class="card aside" style="flex:1 1 280px;min-width:0" aria-label="Info ruangan">
+          <h2>Ruangan dipilih</h2>
+          <div id="preview-room-info">
+            <p class="note">Pilih ruangan di form untuk melihat rincian.</p>
+          </div>
+          <div class="kv">
+            <span class="k">ID Jadwal</span>
+            <span class="mono" id="preview-schedule-id">-</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- VIEW 5: RIWAYAT PENGGUNAAN -->
+    <section id="sec-riwayat" class="view-section">
+      <div class="head">
+        <div>
+          <h1>Riwayat Penggunaan</h1>
+          <p>Rekap seluruh kegiatan yang pernah tercatat. Data diambil dari Jadwal Penggunaan.</p>
+        </div>
+        <div style="display:flex;gap:8px">
+          <span class="ro"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Hanya dibaca</span>
+          <button type="button" class="btn ghost" onclick="exportDataCSV()">Ekspor CSV</button>
+        </div>
+      </div>
+
+      <section class="stats" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))" aria-label="Ringkasan riwayat">
+        <div class="card stat" style="padding:16px 20px"><span class="lbl">Kegiatan tercatat</span><span class="num" style="font-size:32px" id="rw-cnt-semua">0</span></div>
+        <div class="card stat" style="padding:16px 20px"><span class="lbl">Selesai</span><span class="num" style="font-size:32px" id="rw-cnt-selesai">0</span></div>
+        <div class="card stat" style="padding:16px 20px"><span class="lbl">Terjadwal</span><span class="num" style="font-size:32px" id="rw-cnt-terjadwal">0</span></div>
+        <div class="card stat" style="padding:16px 20px"><span class="lbl">Dibatalkan</span><span class="num" style="font-size:32px" id="rw-cnt-dibatalkan">0</span></div>
+      </section>
+
+      <section class="card" aria-label="Tabel riwayat">
+        <div class="tools">
+          <div class="fl" style="flex:2 1 220px">
+            <label for="rw-q">Cari</label>
+            <input class="in" id="rw-q" type="search" placeholder="Kegiatan atau penanggung jawab" oninput="renderRiwayatTable()">
+          </div>
+          <div class="fl">
+            <label for="rw-bulan">Bulan</label>
+            <select class="in" id="rw-bulan" onchange="renderRiwayatTable()">
+              <option value="">Semua bulan</option>
+            </select>
+          </div>
+          <div class="fl">
+            <label for="rw-ruang">Ruangan</label>
+            <select class="in" id="rw-ruang" onchange="renderRiwayatTable()">
+              <option value="">Semua ruangan</option>
+            </select>
+          </div>
+          <div class="fl">
+            <label for="rw-status">Status</label>
+            <select class="in" id="rw-status" onchange="renderRiwayatTable()">
+              <option value="">Semua status</option>
+              <option value="TERJADWAL">TERJADWAL</option>
+              <option value="SELESAI">SELESAI</option>
+              <option value="DIBATALKAN">DIBATALKAN</option>
+            </select>
+          </div>
+          <button class="btn ghost" type="button" onclick="resetRiwayatFilter()">Reset</button>
+        </div>
+
+        <div class="tw">
+          <table style="min-width:1040px">
+            <thead>
+              <tr>
+                <th>ID jadwal</th>
+                <th>Tanggal</th>
+                <th>Ruangan</th>
+                <th>Nama kegiatan</th>
+                <th>Mulai</th>
+                <th>Selesai</th>
+                <th>Penanggung jawab</th>
+                <th>Status</th>
+                <th>Keterangan</th>
+              </tr>
+            </thead>
+            <tbody id="rw-tbody"></tbody>
+          </table>
+        </div>
+
+        <div class="foot">
+          <span id="rw-pager-info">Halaman 1 dari 1</span>
+          <div class="pg" id="rw-pager-btns"></div>
+        </div>
+      </section>
+    </section>
+
+    <!-- VIEW 6: CADANGAN DATA (BACKUP & RESTORE) -->
+    <section id="sec-backup" class="view-section">
+      <div class="head">
+        <div>
+          <h1>Cadangan & Pemulihan Data</h1>
+          <p>Karena sistem ini berjalan secara static di peramban Anda, data tersimpan di LocalStorage. Anda bisa mengunduh cadangan kapan saja.</p>
+        </div>
+      </div>
+
+      <div class="cols">
+        <div class="card panel" style="flex:1 1 320px">
+          <h2>Unduh Cadangan Data</h2>
+          <p class="hint">Simpan seluruh data ruangan dan jadwal ke dalam satu berkas JSON di laptop atau komputer Anda.</p>
+          <div>
+            <button type="button" class="btn" onclick="exportDataJSON()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Unduh Berkas Cadangan (.JSON)
+            </button>
+          </div>
+        </div>
+
+        <div class="card panel" style="flex:1 1 320px">
+          <h2>Pulihkan Data</h2>
+          <p class="hint">Unggah berkas cadangan JSON yang sebelumnya pernah diunduh untuk memulihkan data ruangan dan jadwal.</p>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <input type="file" id="import-file-input" accept=".json" class="in" style="padding-top:8px">
+            <button type="button" class="btn ghost" onclick="importDataJSON()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Pulihkan Data Sekarang
+            </button>
+          </div>
+        </div>
+
+        <div class="card panel" style="flex:1 1 320px">
+          <h2>Kembalikan Data Awal</h2>
+          <p class="hint">Reset data ke kondisi awal Excel (1 ruangan, 7 kegiatan default). Hati-hati, aksi ini akan menimpa data yang telah Anda tambahkan.</p>
+          <div>
+            <button type="button" class="btn ghost" style="color:var(--danger);border-color:var(--danger)" onclick="resetToInitialData()">
+              Kembalikan ke Data Awal
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
